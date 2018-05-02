@@ -6,7 +6,6 @@ public class ColumnController : MonoBehaviour
 {
     const int ColumnCount = 4;
     const float ColumnInterval = 576f;
-    const float SpeedStep = 1f;
 
     List<ColumnComponent> _columns;
 
@@ -20,7 +19,23 @@ public class ColumnController : MonoBehaviour
             column.transform.SetParent(transform, false);
             _columns.Add(column.GetComponent<ColumnComponent>());
         }
+    }
+
+    void OnEnable()
+    {
+        for (int i = 0; i < _columns.Count; i++)
+        {
+            _columns[i].ResetPosition();
+        }
         StartCoroutine(MoveColumn());
+    }
+
+    void OnDisable()
+    {
+        for (int i = 0; i < _columns.Count; i++)
+        {
+            _columns[i].enabled = false;
+        }
     }
 
     IEnumerator MoveColumn()
@@ -40,19 +55,11 @@ public class ColumnController : MonoBehaviour
         }
     }
 
-    void OnDisable()
-    {
-        for (int i = 0; i < _columns.Count; i++)
-        {
-            _columns[i].enabled = false;
-        }
-    }
-
     public void AddSpeed()
     {
         for (int i = 0; i < _columns.Count; i++)
         {
-            _columns[i].MoveSpeed += SpeedStep;
+            _columns[i].AddSpeed();
         }
     }
 }

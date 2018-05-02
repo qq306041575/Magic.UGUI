@@ -32,7 +32,7 @@ public class BirdView : MonoBehaviour
         {
             return;
         }
-        else if ("FloorCollider" == go.name || "ColumnCollider" == go.name)
+        if ("FloorCollider" == go.name || "ColumnCollider" == go.name)
         {
             LoseGame();
         }
@@ -55,7 +55,7 @@ public class BirdView : MonoBehaviour
     void LoseGame()
     {
         _isLose = true;
-        _birdController.Die();
+        _birdController.enabled = false;
         _columnController.enabled = false;
         _skyBackground.enabled = false;
         _grassBackground.enabled = false;
@@ -72,7 +72,14 @@ public class BirdView : MonoBehaviour
 
     public void OnReplayClick()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        _birdController.enabled = true;
+        _columnController.enabled = true;
+        _skyBackground.enabled = true;
+        _grassBackground.enabled = true;
+        _loseObject.SetActive(false);
+        _scoreText.text = "SCORE: 0";
+        _score = 0;
+        _isLose = false;
     }
 
     public void OnBackClick()

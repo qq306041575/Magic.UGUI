@@ -9,11 +9,28 @@ public class BirdController : MonoBehaviour
     Rigidbody2D _birdBody;
     Animator _birdAnimator;
     GameObject _colliderObject;
+    Vector3 _position;
 
     void Awake()
     {
         _birdBody = GetComponent<Rigidbody2D>();
         _birdAnimator = GetComponentInChildren<Animator>();
+        _position = transform.position;
+    }
+
+    void OnEnable()
+    {
+        _colliderObject = null;
+        _birdBody.velocity = Vector2.zero;
+        _birdBody.angularVelocity = 0;
+        _birdBody.rotation = 0;
+        _birdAnimator.Rebind();
+        transform.position = _position;
+    }
+
+    void OnDisable()
+    {
+        _birdAnimator.SetTrigger("Die");
     }
 
     void OnCollisionEnter2D(Collision2D other)
@@ -41,11 +58,5 @@ public class BirdController : MonoBehaviour
         _birdBody.velocity = Vector2.zero;
         _birdBody.AddForce(Vector2.up * FlySpeed);
         _birdAnimator.SetTrigger("Flap");
-    }
-
-    public void Die()
-    {
-        _birdBody.velocity = Vector2.zero;
-        _birdAnimator.SetTrigger("Die");
     }
 }
