@@ -26,7 +26,7 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-        if (Time.time - _lastGCTime > 1)
+        if (Time.time - _lastGCTime > 5)
         {
             _lua.Tick();
             _lastGCTime = Time.time;
